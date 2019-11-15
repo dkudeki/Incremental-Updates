@@ -2,7 +2,15 @@ import os, sys, json, hashlib, datetime
 from multiprocessing import Pool
 from itertools import repeat
 from datetime import timedelta
+from functools import wraps
 
+def unpack(func):
+	@wraps(func)
+	def wrapper(arg_tuple):
+		return func(*arg_tuple)
+	return wrapper
+
+@unpack
 def generateMARCJSONChecksum(jsonl_file,parent_folder):
 	checksums = {}
 
@@ -30,7 +38,7 @@ def processMARCJSON(jsonl_folder,core_count):
 	p = Pool(core_count)
 	for root, dirs, files in os.walk(jsonl_folder):
 		print(files)
-		results = p.starmap(generateMARCJSONChecksum,zip([f for f in files if f[0] != '.'],repeat(jsonl_folder)))
+		results = p.map(generateMARCJSONChecksum,iterable=zip([f for f in files if f[0] != '.'],repeat(jsonl_folder)))
 
 	output = {}
 	for result in results:
