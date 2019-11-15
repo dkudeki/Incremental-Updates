@@ -1,0 +1,11 @@
+20190613_test/*
+example_new/*
+example_old/*
+first_run_test/*
+small_test/*
+*_checksums.json
+checksums.json
+records_changed.csv
+version_new.json
+version_old.json
+old_records_found.json
