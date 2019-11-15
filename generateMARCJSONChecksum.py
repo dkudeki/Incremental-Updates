@@ -27,7 +27,7 @@ def generateMARCJSONChecksum(jsonl_file,parent_folder):
 						if 'u' in subfield:
 							htid = subfield['u']
 
-			m.update(record.encode('utf-8'))
+			m.update(record)
 			checksums[htid] = m.hexdigest()
 
 	return(checksums)
@@ -40,9 +40,12 @@ def processMARCJSON(jsonl_folder,core_count):
 		print(files)
 		results = p.map(generateMARCJSONChecksum,iterable=zip([f for f in files if f[0] != '.'],repeat(jsonl_folder)))
 
+	p.close()
+	p.join()
+
 	output = {}
 	for result in results:
-		output = {**output, **result}
+		output.update(result)
 
 	with open(jsonl_folder + '_checksums.json','w') as output_file:
 		json.dump(output,output_file)
