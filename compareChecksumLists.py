@@ -13,8 +13,18 @@ def compareChecksumLists(old_checksums,new_checksums):
 	records_removed = old_set - new_set
 	print("Number of records removed:\t" + str(len(records_removed)))
 
+	with open('metadata_changes/records_removed.csv','w') as outfile:
+		writer = csv.writer(outfile)
+		for item in records_removed:
+			writer.writerow([item])
+
 	records_added = new_set - old_set
 	print("Number of records added:\t" + str(len(records_added)))
+
+	with open('metadata_changes/records_added.csv','w') as outfile:
+		writer = csv.writer(outfile)
+		for item in records_added:
+			writer.writerow([item])
 
 	records_in_common = old_set & new_set
 	print("Number of records in common:\t" + str(len(records_in_common)))
@@ -26,9 +36,10 @@ def compareChecksumLists(old_checksums,new_checksums):
 
 	print("Number of records changed:\t" + str(len(changes)))
 
-	with open('records_changed.csv','w') as outfile:
+	with open('metadata_changes/records_changed.csv','w') as outfile:
 		writer = csv.writer(outfile)
 		for item in changes:
 			writer.writerow([item])
 
-compareChecksumLists(sys.argv[1],sys.argv[2])
+if __name__ == "__main__":
+	compareChecksumLists(sys.argv[1],sys.argv[2])
