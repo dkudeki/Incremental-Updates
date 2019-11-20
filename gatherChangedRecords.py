@@ -1,4 +1,4 @@
-import os, sys, csv, json
+import os, sys, csv
 
 def gatherChangedRecords(changes_folder,marcjson_folder):
 	changes = {}
@@ -11,9 +11,13 @@ def gatherChangedRecords(changes_folder,marcjson_folder):
 				for row in reader:
 					changes[label].append(row[0])
 
-	with open('output.json','w') as outfile:
-		json.dump(changes,outfile)
+	outfiles = {}
+	for group in changes:
+		outfiles[group] = open(changes_folder + '/' + group + '.jsonl','w')
 
+
+	for g in outfiles:
+		outfiles[g].close()
 
 if __name__ == "__main__":
 	gatherChangedRecords(sys.argv[1],sys.argv[2])
