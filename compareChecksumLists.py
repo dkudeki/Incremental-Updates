@@ -11,14 +11,14 @@ def compareChecksumLists(old_checksums,new_checksums):
 	new_set = set(new_dict.keys())
 
 	try:
-		write_folder = os.mkdir('metadata_changes')
+		os.mkdir('metadata_changes')
 	except:
 		pass
 
 	records_removed = old_set - new_set
 	print("Number of records removed:\t" + str(len(records_removed)))
 
-	with open(write_folder + '/records_removed.csv','w') as outfile:
+	with open('metadata_changes/records_removed.csv','w') as outfile:
 		writer = csv.writer(outfile)
 		for item in records_removed:
 			writer.writerow([item])
@@ -26,7 +26,7 @@ def compareChecksumLists(old_checksums,new_checksums):
 	records_added = new_set - old_set
 	print("Number of records added:\t" + str(len(records_added)))
 
-	with open(write_folder + '/records_added.csv','w') as outfile:
+	with open('metadata_changes/records_added.csv','w') as outfile:
 		writer = csv.writer(outfile)
 		for item in records_added:
 			writer.writerow([item])
@@ -41,7 +41,7 @@ def compareChecksumLists(old_checksums,new_checksums):
 
 	print("Number of records changed:\t" + str(len(changes)))
 
-	with open(write_folder + '/records_changed.csv','w') as outfile:
+	with open('metadata_changes/records_changed.csv','w') as outfile:
 		writer = csv.writer(outfile)
 		for item in changes:
 			writer.writerow([item])
