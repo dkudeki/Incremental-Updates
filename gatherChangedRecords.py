@@ -8,7 +8,8 @@ def gatherChangedRecords(changes_folder,marcjson_folder):
 			changes[label] = []
 			with open(root + f,'r') as infile:
 				reader = csv.reader(infile)
-				changes[label] = list(reader)
+				for row in reader:
+					changes[label].append(row[0])
 
 	with open('output.json','w') as outfile:
 		json.dump(changes,outfile)
