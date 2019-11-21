@@ -46,7 +46,7 @@ def listener(q,outfiles):
 def processFiles(marcjson_folder,changes,outfiles,core_count):
 	manager = mp.Manager()
 	q = manager.Queue()
-	p = mp.Pool(core_count)
+	p = mp.Pool(int(core_count))
 
 	watcher = p.apply_async(listener, (q,outfiles))
 
