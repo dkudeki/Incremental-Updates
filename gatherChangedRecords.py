@@ -34,12 +34,13 @@ def populateChangeLists(jsonl_file,parent_folder,changes,q):
 	return results
 
 def listener(q,outfiles):
-	results = q.get()
-	if results == 'kill':
-		break
+	while(1):
+		results = q.get()
+		if results == 'kill':
+			break
 
-	for group in results:
-		outfiles[group].write(results[group])
+		for group in results:
+			outfiles[group].write(results[group])
 
 
 def processFiles(marcjson_folder,changes,outfiles,core_count):
