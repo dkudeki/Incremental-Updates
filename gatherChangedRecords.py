@@ -71,7 +71,7 @@ def gatherChangedRecords(changes_folder,marcjson_folder,core_count):
 		for f in files:
 			label = f[f.find('_')+1:-4]
 			changes[label] = []
-			with open(root + f,'r') as infile:
+			with open(root + '/' + f,'r') as infile:
 				reader = csv.reader(infile)
 				for row in reader:
 					changes[label].append(row[0])
