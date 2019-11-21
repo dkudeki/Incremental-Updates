@@ -52,8 +52,8 @@ def processFiles(marcjson_folder,changes,outfiles,core_count):
 
 	jobs = []
 	for root, dirs, files in os.walk(marcjson_folder):
-		print(files + '\n')
 		for f in files:
+			print(f + '\n')
 			if f[0] != '.':
 				job = p.apply_async(populateChangeLists,(f,marcjson_folder,changes,q))
 				jobs.append(job)
