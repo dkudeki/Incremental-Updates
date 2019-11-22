@@ -40,8 +40,8 @@ def listener(q,outfile_names):
 	outfiles = {}
 	for o in outfile_names:
 		outfiles[o] = open(outfile_names[o],'w')
-#		print(o)
-#		print(outfile_names[o])
+		print(o)
+		print(outfile_names[o])
 
 	while(1):
 		results = q.get()
@@ -52,10 +52,11 @@ def listener(q,outfile_names):
 #		print(results)
 
 		for group in results:
-			print(group)
-			print(results[group])
-			print(outfiles[group])
-			outfiles[group].write(results[group])
+			if group != 'removed':
+				print(group)
+				print(results[group])
+				print(outfiles[group])
+				outfiles[group].write(results[group])
 
 	for file in outfiles:
 		outfiles[file].close()
