@@ -35,11 +35,11 @@ def populateChangeLists(jsonl_file,parent_folder,changes,q):
 	q.put(results)
 	return results
 
-def listener(q,outfiles):
+def listener(q,outfile_names):
 	print("listener check-in:")
-	for o in outfiles:
+	for o in outfile_names:
 		print(o)
-		print(outfiles[o])
+		print(outfile_names[o])
 
 	while(1):
 		results = q.get()
@@ -52,8 +52,8 @@ def listener(q,outfiles):
 		for group in results:
 			print(group)
 			print(results[group])
-			print(outfiles[group])
-			outfiles[group].write(results[group])
+			print(outfile_names[group])
+			outfile_names[group].write(results[group])
 
 def processFiles(marcjson_folder,changes,outfiles,core_count):
 	manager = mp.Manager()
@@ -65,7 +65,7 @@ def processFiles(marcjson_folder,changes,outfiles,core_count):
 		print(o)
 		print(outfiles[o])
 
-	watcher = p.apply_async(listener, (q,),{'outfiles': outfiles})
+	watcher = p.apply_async(listener, (q,outfiles))
 
 	jobs = []
 	for root, dirs, files in os.walk(marcjson_folder):
@@ -96,17 +96,17 @@ def gatherChangedRecords(changes_folder,marcjson_folder,core_count):
 
 	outfiles = {}
 	for group in changes:
-		outfiles[group] = open(changes_folder + '/' + group + '.jsonl','w')
+		outfiles[group] = changes_folder + '/' + group + '.jsonl'
 		print(group)
 		print(outfiles[group])
 
 	processFiles(marcjson_folder,changes,outfiles,core_count)
 
-	for g in outfiles:
-		print(g)
-		print(outfiles[g])
-		print("Closing ^^^^")
-		outfiles[g].close()
+#	for g in outfiles:
+#		print(g)
+#		print(outfiles[g])
+#		print("Closing ^^^^")
+#		outfiles[g].close()
 
 if __name__ == "__main__":
 	gatherChangedRecords(sys.argv[1],sys.argv[2],sys.argv[3])
