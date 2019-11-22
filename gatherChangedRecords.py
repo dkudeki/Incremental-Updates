@@ -30,8 +30,8 @@ def populateChangeLists(jsonl_file,parent_folder,changes,q):
 							else:
 								pass
 
-	print("populateChangeLists results:")
-	print(results)
+#	print("populateChangeLists results:")
+#	print(results)
 	q.put(results)
 	return results
 
@@ -41,10 +41,13 @@ def listener(q,outfiles):
 		if results == 'kill':
 			break
 
-		print("listener results:")
-		print(results)
+#		print("listener results:")
+#		print(results)
 
 		for group in results:
+			print(group)
+			print(results[group])
+			print(outfiles[group])
 			outfiles[group].write(results[group])
 
 def processFiles(marcjson_folder,changes,outfiles,core_count):
