@@ -56,7 +56,9 @@ def listener(q,outfile_names):
 				print(group)
 				print(results[group])
 				print(outfiles[group])
-				outfiles[group].write(results[group])
+				for line in results[group]:
+					print(line)
+					outfiles[group].write(line)
 
 	for file in outfiles:
 		outfiles[file].close()
