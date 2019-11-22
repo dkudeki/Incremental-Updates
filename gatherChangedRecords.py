@@ -52,7 +52,7 @@ def listener(q,outfile_names):
 #		print(results)
 
 		for group in results:
-			if group != 'removed':
+			if group != 'removed' and results[group]:
 				print(group)
 				print(results[group])
 				print(outfiles[group])
