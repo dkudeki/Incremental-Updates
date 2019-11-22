@@ -30,6 +30,8 @@ def populateChangeLists(jsonl_file,parent_folder,changes,q):
 							else:
 								pass
 
+	print("populateChangeLists results:")
+	print(results)
 	q.put(results)
 	return results
 
@@ -39,9 +41,11 @@ def listener(q,outfiles):
 		if results == 'kill':
 			break
 
+		print("listener results:")
+		print(results)
+
 		for group in results:
 			outfiles[group].write(results[group])
-
 
 def processFiles(marcjson_folder,changes,outfiles,core_count):
 	manager = mp.Manager()
@@ -53,7 +57,7 @@ def processFiles(marcjson_folder,changes,outfiles,core_count):
 	jobs = []
 	for root, dirs, files in os.walk(marcjson_folder):
 		for f in files:
-			print(f + '\n')
+			print(f)
 			if f[0] != '.':
 				job = p.apply_async(populateChangeLists,(f,marcjson_folder,changes,q))
 				jobs.append(job)
