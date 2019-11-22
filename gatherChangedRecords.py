@@ -87,6 +87,8 @@ def gatherChangedRecords(changes_folder,marcjson_folder,core_count):
 	outfiles = {}
 	for group in changes:
 		outfiles[group] = open(changes_folder + '/' + group + '.jsonl','w')
+		print(group)
+		print(outfiles[group])
 
 	processFiles(marcjson_folder,changes,outfiles,core_count)
 
