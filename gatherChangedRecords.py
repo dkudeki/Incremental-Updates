@@ -65,7 +65,7 @@ def processFiles(marcjson_folder,changes,outfiles,core_count):
 		print(o)
 		print(outfiles[o])
 
-	watcher = p.apply_async(listener, (q,outfiles))
+	watcher = p.apply_async(listener, (q,),{'outfiles': outfiles})
 
 	jobs = []
 	for root, dirs, files in os.walk(marcjson_folder):
