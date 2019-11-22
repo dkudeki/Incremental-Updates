@@ -93,6 +93,8 @@ def gatherChangedRecords(changes_folder,marcjson_folder,core_count):
 	processFiles(marcjson_folder,changes,outfiles,core_count)
 
 	for g in outfiles:
+		print(g)
+		print("Closing ^^^^")
 		outfiles[g].close()
 
 if __name__ == "__main__":
