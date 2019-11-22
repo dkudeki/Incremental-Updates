@@ -37,9 +37,11 @@ def populateChangeLists(jsonl_file,parent_folder,changes,q):
 
 def listener(q,outfile_names):
 	print("listener check-in:")
+	outfiles = {}
 	for o in outfile_names:
-		print(o)
-		print(outfile_names[o])
+		outfiles[o] = open(outfile_names[o],'w')
+#		print(o)
+#		print(outfile_names[o])
 
 	while(1):
 		results = q.get()
@@ -52,8 +54,11 @@ def listener(q,outfile_names):
 		for group in results:
 			print(group)
 			print(results[group])
-			print(outfile_names[group])
-			outfile_names[group].write(results[group])
+			print(outfiles[group])
+			outfiles[group].write(results[group])
+
+	for file in outfiles:
+		outfiles[file].close()
 
 def processFiles(marcjson_folder,changes,outfiles,core_count):
 	manager = mp.Manager()
