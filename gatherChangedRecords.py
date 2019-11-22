@@ -30,34 +30,22 @@ def populateChangeLists(jsonl_file,parent_folder,changes,q):
 							else:
 								pass
 
-#	print("populateChangeLists results:")
-#	print(results)
 	q.put(results)
 	return results
 
 def listener(q,outfile_names):
-	print("listener check-in:")
 	outfiles = {}
 	for o in outfile_names:
 		outfiles[o] = open(outfile_names[o],'w')
-		print(o)
-		print(outfile_names[o])
 
 	while(1):
 		results = q.get()
 		if results == 'kill':
 			break
 
-#		print("listener results:")
-#		print(results)
-
 		for group in results:
 			if group != 'removed' and results[group]:
-				print(group)
-				print(results[group])
-				print(outfiles[group])
 				for line in results[group]:
-					print(line)
 					outfiles[group].write(line)
 
 	for file in outfiles:
@@ -69,9 +57,6 @@ def processFiles(marcjson_folder,changes,outfiles,core_count):
 	p = mp.Pool(int(core_count))
 
 	print("processFiles check-in:")
-	for o in outfiles:
-		print(o)
-		print(outfiles[o])
 
 	watcher = p.apply_async(listener, (q,outfiles))
 
@@ -105,16 +90,8 @@ def gatherChangedRecords(changes_folder,marcjson_folder,core_count):
 	outfiles = {}
 	for group in changes:
 		outfiles[group] = changes_folder + '/' + group + '.jsonl'
-		print(group)
-		print(outfiles[group])
 
 	processFiles(marcjson_folder,changes,outfiles,core_count)
-
-#	for g in outfiles:
-#		print(g)
-#		print(outfiles[g])
-#		print("Closing ^^^^")
-#		outfiles[g].close()
 
 if __name__ == "__main__":
 	gatherChangedRecords(sys.argv[1],sys.argv[2],sys.argv[3])
