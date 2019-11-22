@@ -36,6 +36,11 @@ def populateChangeLists(jsonl_file,parent_folder,changes,q):
 	return results
 
 def listener(q,outfiles):
+	print("listener check-in:")
+	for o in outfiles:
+		print(o)
+		print(outfiles[o])
+
 	while(1):
 		results = q.get()
 		if results == 'kill':
@@ -54,6 +59,11 @@ def processFiles(marcjson_folder,changes,outfiles,core_count):
 	manager = mp.Manager()
 	q = manager.Queue()
 	p = mp.Pool(int(core_count))
+
+	print("processFiles check-in:")
+	for o in outfiles:
+		print(o)
+		print(outfiles[o])
 
 	watcher = p.apply_async(listener, (q,outfiles))
 
@@ -94,6 +104,7 @@ def gatherChangedRecords(changes_folder,marcjson_folder,core_count):
 
 	for g in outfiles:
 		print(g)
+		print(outfiles[g])
 		print("Closing ^^^^")
 		outfiles[g].close()
 
