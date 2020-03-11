@@ -1,0 +1,17 @@
+Virtuoso Database Bibframe Metadata Incremental Update Schema Overview
+
+Steps:
+
+0. Run generateMARCJSONChecksum.py on the initial run of data (in this case from whatever date was used to generate the EF2.0 metadata). Feed in the JSONL files from that date to generate the cheksum list and save that in a permanent location
+
+1. Run generateMARCJSONChecksum.py on a more recent version of the JSONL files rsync'd from HT
+
+2. Run compareChecksumLists.py on the checksum saved to the permanent location and the newly generated checksum. This will output files listing the records that have been changed, removed and added. At this point the newer checksum should replace the older one in the permanent location
+
+3. Feed in changes folder to gatherChangedRecords.py to generate JSONL files containing just the new and updated records
+
+4. Pass along the new and updated records plus a list of the removed records to Boris for the bibframe generation
+
+5. Get the generated bibframe records, which should contain one Work/Instance/Item triple pre file
+
+6. Feed these records into splitBibframeForVirtuoso.py which generates a file for each of the items in the triples, or adds new metadata to files that already exist
